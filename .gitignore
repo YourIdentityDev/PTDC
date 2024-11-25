@@ -1,2 +1,4 @@
 DcWebhook.env
 .gitignore
+.git
+.idea
