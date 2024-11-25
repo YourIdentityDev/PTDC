@@ -12,17 +12,17 @@ def loop():
     close = False
     while not close:
 
-        status = requests.get("webhook_url")
+        status = requests.get(webhook_url)
 
         match status.json().get('content'):
             case None:
                 time.sleep(2)
             case "Lock": # Locks Windows
-                requests.patch("webhook_url", json=neutralStatusData)   # change the data to the default
+                requests.patch(webhook_url, json=neutralStatusData)   # change the data to the default
                 ctypes.windll.user32.LockWorkStation()
                 print("Locked")
             case "Close": # close the Programm
-                requests.patch("webhook_url", json=neutralStatusData)
+                requests.patch(webhook_url, json=neutralStatusData)
                 close = True
                 print("Closed")
 
@@ -31,7 +31,7 @@ try:
     neutralStatusData = {
         "content": "No State active"
     }
-    requests.patch("webhook_url", json=neutralStatusData)
+    requests.patch(webhook_url, json=neutralStatusData)
 
     loop()
 
