@@ -8,23 +8,26 @@ import time
 load_dotenv("DcWebhook.env")
 webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
 
-def loop():
+def loop(webhook_url):
     close = False
     while not close:
 
         status = requests.get(webhook_url)
 
-        match status.json().get('content'):
-            case None:
-                time.sleep(2)
-            case "Lock": # Locks Windows
-                requests.patch(webhook_url, json=neutralStatusData)   # change the data to the default
-                ctypes.windll.user32.LockWorkStation()
-                print("Locked")
-            case "Close": # close the Programm
-                requests.patch(webhook_url, json=neutralStatusData)
-                close = True
-                print("Closed")
+        jsonContent = status.json().get('content')
+
+        if "No State active" in jsonContent:
+            time.sleep(2)
+        elif "Lock" in jsonContent:
+            requests.patch(webhook_url, json=neutralStatusData)  # change the data to the default
+            ctypes.windll.user32.LockWorkStation()
+            print("Locked")
+        elif "Close" in jsonContent:
+            requests.patch(webhook_url, json=neutralStatusData)
+            close = True
+            print("Closed")
+        else:
+            print("The Webhook did not respond.")
 
 try:
 
@@ -33,7 +36,7 @@ try:
     }
     requests.patch(webhook_url, json=neutralStatusData)
 
-    loop()
+    loop(webhook_url)
 
 except KeyboardInterrupt as e:
     # so when you try to close the programm it doesn't spam you with errors
@@ -49,7 +52,7 @@ except requests.exceptions.ConnectionError as e:
         try:
             socket.setdefaulttimeout(3)
             with socket.create_connection(("8.8.8.8", 53), 3):
-                loop()
+                loop(webhook_url)
         except (socket.timeout, socket.error):
             isConnected = False
             continue
