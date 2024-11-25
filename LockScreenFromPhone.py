@@ -5,7 +5,7 @@ import ctypes
 import time
 
 # I need to load it from the file so my URL isn't saved on GitHub
-load_dotenv()
+load_dotenv("DcWebhook.env")
 webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
 
 def loop():
