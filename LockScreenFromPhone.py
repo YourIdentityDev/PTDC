@@ -51,7 +51,7 @@ except requests.exceptions.ConnectionError as e:
         time.sleep(300) #5 min
         try:
             socket.setdefaulttimeout(3)
-            with socket.create_connection(("8.8.8.8", 53), 3):
+            with socket.create_connection(("8.8.8.8", 53), 3): #pings google server to check if there is an active connection
                 loop(webhook_url)
         except (socket.timeout, socket.error):
             isConnected = False
