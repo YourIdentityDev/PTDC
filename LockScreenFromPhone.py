@@ -22,9 +22,7 @@ def loop():
                 ctypes.windll.user32.LockWorkStation()
                 print("Locked")
             case "Close": #close the Programm
-                requests.patch(
-                    "webhook_url",
-                    json=neutralStatusData)
+                requests.patch("webhook_url", json=neutralStatusData)
                 close = True
                 print("Closed")
 
