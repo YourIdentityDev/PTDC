@@ -1,2 +1,2 @@
 # PTDC
-**P**hone **t**o **d**esktop **c**ontrol
+**P**hone**T**o**D**esktop**C**ontrol
