@@ -29,7 +29,7 @@ def loop():
 try:
 
     neutralStatusData = {
-        "content": "Kein Status"
+        "content": "No State active"
     }
     requests.patch("webhook_url", json=neutralStatusData)
 
