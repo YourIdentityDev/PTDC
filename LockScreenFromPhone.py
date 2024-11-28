@@ -4,9 +4,18 @@ import requests
 import ctypes
 import time
 
-# I need to load it from the file so my URL isn't saved on GitHub
-load_dotenv("DcWebhook.env")
-webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+
+if os.path.exists("DcWebhook.env"):
+    # I need to load it from the file so my URL isn't saved on GitHub
+    load_dotenv("DcWebhook.env")
+    webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+else:
+    webhook_url = input("\"DcWebhook.env\" could not be found\nCreating new file\nInput Discord Webhook URL with the message id: ")
+    fileData = f"""#This should be the URL to the message send from the Webhook
+#This message should only be used for that
+DISCORD_WEBHOOK_URL={webhook_url}"""
+    with open("DcWebhook.env", "w") as file:
+        file.write(fileData)
 
 def loop(webhook_url):
     close = False
