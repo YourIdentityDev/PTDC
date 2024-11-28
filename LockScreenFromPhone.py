@@ -11,6 +11,13 @@ if os.path.exists("DcWebhook.env"):
     webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
 else:
     webhook_url = input("\"DcWebhook.env\" could not be found\nCreating new file\nInput Discord Webhook URL with the message id: ")
+    if "https://disocrd.com/api/webhooks/" not in webhook_url and "/messages/" not in webhook_url:
+        correctInput = False
+        while not correctInput:
+            print("Input is not correct\nTry again\n\n")
+            webhook_url = input("\"DcWebhook.env\" could not be found\nCreating new file\nInput Discord Webhook URL with the message id: ")
+            if "https://disocrd.com/api/webhooks/" in webhook_url and "/messages/" in webhook_url:
+                correctInput = True
     fileData = f"""#This should be the URL to the message send from the Webhook
 #This message should only be used for that
 DISCORD_WEBHOOK_URL={webhook_url}"""
