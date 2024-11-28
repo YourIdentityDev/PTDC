@@ -4,16 +4,20 @@ import requests
 import ctypes
 import time
 
+#import socket      # this will be loaded when there is no internet connection
+
 
 if os.path.exists("DcWebhook.env"):
     # I need to load it from the file so my URL isn't saved on GitHub
     load_dotenv("DcWebhook.env")
     webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
 else:
+    # The File will be created and the user input will be checked if the URL ist not right
     webhook_url = input("\"DcWebhook.env\" could not be found\nCreating new file\nInput Discord Webhook URL with the message id: ")
     if "https://disocrd.com/api/webhooks/" not in webhook_url and "/messages/" not in webhook_url:
         correctInput = False
         while not correctInput:
+            # Looping as long the user gives an false input
             print("Input is not correct\nTry again\n\n")
             webhook_url = input("\"DcWebhook.env\" could not be found\nCreating new file\nInput Discord Webhook URL with the message id: ")
             if "https://disocrd.com/api/webhooks/" in webhook_url and "/messages/" in webhook_url:
